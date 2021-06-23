@@ -4,7 +4,8 @@ import "bulma/css/bulma.min.css";
 import Toolbar from "./components/Toolbar/Toolbar";
 import Animation from "./components/Animation/Animation";
 import { ChangeEvent } from "react";
-const algorithms = ["quicksort"];
+import qSort from "./algorithms/qSort";
+import algorithm from "./interfaces/algorithm";
 
 function App() {
   const createRandomArray = (length: number): number[] => {
@@ -12,19 +13,34 @@ function App() {
       (a) => (a = Math.ceil(Math.random() * length))
     );
   };
-
+  // console.log(qSort(createRandomArray(500)));
   const [state, setState] = useState({
     array: createRandomArray(10),
     speed: 1,
-    algorithm: algorithms[0],
+    step: 1,
+    algorithms: [
+      { name: "quicksort", selected: true, getAnimation: qSort },
+      { name: "mergesort", selected: false, getAnimation: () => {} },
+    ],
+    selectedAlgorithm: qSort,
+    animation: [[]],
+    play: false,
   });
 
-  const changeArray = (
+  const changeArrayLength = (
     event: ChangeEvent<{}>,
     length: number | number[]
   ): void => {
-    if (typeof length === "number")
-      setState({ ...state, array: createRandomArray(length) });
+    if (typeof length === "number") {
+      const arr = createRandomArray(length);
+      console.log(state.selectedAlgorithm);
+      // console.log(qSort(arr));
+      setState({
+        ...state,
+        array: arr,
+        // animation: state.selectedAlgorithm(array),
+      });
+    }
   };
   const changeSpeed = (
     event: ChangeEvent<{}>,
@@ -33,20 +49,47 @@ function App() {
     if (typeof value === "number") setState({ ...state, speed: value });
   };
 
-  const startAnimation = (): void => {};
-  const chooseAlgorithm = (): void => {};
+  const startAnimation = (): void => {
+    console.log(state.animation);
+    setState({
+      ...state,
+      array: state.animation[state.step],
+      step: state.step + 1,
+    });
+    // setTimeout(() => startAnimation(), 100);
+    console.log(state.step, state.animation[state.step]);
+  };
+  const chooseAlgorithm = (event: any): void => {
+    const algorithms = [...state.algorithms];
+    console.log(algorithms);
+    algorithms.map((a) => (a.selected = false));
+
+    const selected = algorithms.filter((a) => a.name === event.target.value)[0];
+    selected.selected = true;
+    console.log(selected.getAnimation);
+
+    setState({
+      ...state,
+      algorithms: algorithms,
+      selectedAlgorithm: selected.getAnimation,
+      animation: selected.getAnimation(state.array),
+    });
+
+    console.log(event.target.value);
+    // console.log(algorithmNames);
+  };
 
   return (
     <div className="columns is-mobile">
       <div className="column is-narrow">
         <Toolbar
-          changeArray={changeArray}
+          changeArrayLength={changeArrayLength}
           changeSpeed={changeSpeed}
           chooseAlgorithm={chooseAlgorithm}
           arrayLength={state.array.length}
           speed={state.speed}
-          algorithm={state.algorithm}
-          algorithms={algorithms}
+          // selectedAlgorithm={getSelectedAlgorithm()}
+          algorithms={state.algorithms}
         />
       </div>
       <div className="column">

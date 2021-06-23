@@ -2,15 +2,19 @@ import React, { ChangeEvent } from "react";
 import styles from "./Toolbar.module.css";
 import Dropdown from "../Dropdown/Dropdown";
 import Slider from "../Slider/Slider";
+import algorithm from "../../interfaces/algorithm";
 
 type Props = {
-  changeArray: (event: ChangeEvent<{}>, newValue: number | number[]) => void;
+  changeArrayLength: (
+    event: ChangeEvent<{}>,
+    newValue: number | number[]
+  ) => void;
   changeSpeed: (event: ChangeEvent<{}>, newValue: number | number[]) => void;
-  chooseAlgorithm: () => void;
+  chooseAlgorithm: (e: any) => void;
   arrayLength: number;
   speed: number;
-  algorithm: string;
-  algorithms: string[];
+  // selectedAlgorithm: algorithm;
+  algorithms: algorithm[];
 };
 
 const Toolbar = (props: Props) => (
@@ -22,7 +26,7 @@ const Toolbar = (props: Props) => (
           max={500}
           label={"size of array"}
           value={props.arrayLength}
-          handleChange={props.changeArray}
+          handleChange={props.changeArrayLength}
         />
       </section>
       <section className="py-6" id="speed">
@@ -36,7 +40,7 @@ const Toolbar = (props: Props) => (
       </section>
       <section className="py-6" id="algorithm">
         <Dropdown
-          value={props.algorithm}
+          // value={props.selectedAlgorithm}
           algorithms={props.algorithms}
           handleChange={props.chooseAlgorithm}
         />
