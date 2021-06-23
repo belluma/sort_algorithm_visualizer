@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import "bulma/css/bulma.min.css";
 import Toolbar from "./components/Toolbar/Toolbar";
@@ -15,7 +14,7 @@ function App() {
   };
 
   const [state, setState] = useState({
-    array: createRandomArray(50),
+    array: createRandomArray(10),
     speed: 1,
     algorithm: algorithms[0],
   });
