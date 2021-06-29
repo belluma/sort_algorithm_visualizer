@@ -1,32 +1,24 @@
-const animations: number[][] = [];
-const quickSort = (
-  array: number[],
-  helperArray: number[] = [],
-  lesser = true
-): any => {
-  if (!animations.length) animations.push(array);
+const meta = (array: any[]) => {
+  const animations: any[][] = [];
 
-  if (!array.length) return animations;
-  const random: number = Math.floor(Math.random() * array.length);
-  const pivot: number = array.splice(random, 1)[0];
-  const less: number[] = [];
-  const greater: number[] = [];
-  let arr: number[] = [];
-  animations.push([pivot].concat(array, helperArray));
-  while (array.length) {
-    const n = array.splice(0, 1)[0];
-    n < pivot ? less.push(n) : greater.push(n);
-    arr = lesser
-      ? less.concat(pivot, array, greater, helperArray)
-      : helperArray.concat(less, pivot, array, greater);
-    animations.push(arr);
-  }
-  const helper1 = [pivot].concat(greater, helperArray);
-  const helper2 = less.concat(pivot, helperArray);
-
-  return quickSort(less, helper1, true)
-    .concat(pivot)
-    .concat(quickSort(greater, helper2, false));
+  const quickSort = (start: number, end: number) => {
+    if (end - start > 0) {
+      const pivot: number = array[end];
+      let border: number = start;
+      animations.push([...array]);
+      for (let i = start; i < end; i++) {
+        if (array[i] < pivot) {
+          [array[i], array[border]] = [array[border], array[i]];
+          border++;
+        }
+        animations.push([...array]);
+      }
+      [array[end], array[border]] = [array[border], array[end]];
+      quickSort(start, border - 1);
+      quickSort(border + 1, end);
+    }
+  };
+  quickSort(0, array.length - 1);
+  return animations;
 };
-
-export default quickSort;
+export default meta;
