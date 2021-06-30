@@ -5,7 +5,8 @@ import Toolbar from "./components/Toolbar/Toolbar";
 import Animation from "./components/Animation/Animation";
 import { ChangeEvent } from "react";
 import qSort from "./algorithms/qSort";
-import algorithm from "./interfaces/algorithm";
+import iState from "./interfaces/state";
+import iStep from "./interfaces/animationStep";
 
 function App() {
   const createRandomArray = (length: number): number[] => {
@@ -13,7 +14,7 @@ function App() {
       (a) => (a = Math.ceil(Math.random() * length))
     );
   };
-  const [state, setState] = useState({
+  const [state, setState] = useState<iState>({
     array: createRandomArray(10),
     speed: 1,
     step: 0,
@@ -22,22 +23,31 @@ function App() {
       {
         name: "mergesort",
         selected: false,
-        getAnimation: () => {
-          return [[1, 2]];
-        },
+        getAnimation: qSort,
       },
     ],
     selectedAlgorithm: qSort,
-    animation: [[1]],
     play: false,
   });
   useEffect(() => {
-    console.log(123);
     setState({
       ...state,
       animation: state.selectedAlgorithm([...state.array]),
+      step: 0,
+      play: false,
     });
   }, [state.selectedAlgorithm, state.array]);
+
+  useEffect(() => {
+    console.log("step", state.step);
+    if (state.play) {
+      const timer = setTimeout(
+        () => animate(),
+        500 - (2 * state.speed ** 2 + 20 * state.speed + 95)
+      );
+      return () => clearTimeout(timer);
+    }
+  }, [state.step, state.play, state.speed]);
 
   const changeArrayLength = (
     event: ChangeEvent<{}>,
@@ -57,16 +67,8 @@ function App() {
     if (typeof value === "number") setState({ ...state, speed: value });
   };
 
-  const startAnimation = (): void => {
-    console.log(state.animation);
-    // console.log(state.step);
-    // setState({
-    //   ...state,
-    //   array: state.animation[state.step],
-    //   step:
-    //     state.step < state.animation.length - 1 ? state.step + 1 : state.step,
-    // });
-    // setTimeout(() => startAnimation(), 100);
+  const startPause = (): void => {
+    setState({ ...state, play: !state.play });
   };
   const chooseAlgorithm = (event: any): void => {
     const algorithms = [...state.algorithms];
@@ -78,13 +80,33 @@ function App() {
       ...state,
       algorithms: algorithms,
       selectedAlgorithm: selected.getAnimation,
-      // animation: selected.getAnimation(state.array),
     });
-
-    console.log(event.target.value);
-    // console.log(algorithmNames);
   };
+  if (state.animation && state.step >= state.animation.length - 1 && state.play)
+    setState({ ...state, play: false });
 
+  const animate = () => {
+    setState({ ...state, step: state.step + 1 });
+  };
+  const next = () => {
+    setState({ ...state, step: state.step + 1 });
+  };
+  const previous = () => {
+    setState({ ...state, step: state.step - 1 });
+  };
+  const animation = () => {
+    if (state.animation)
+      return (
+        <Animation
+          startAnimation={startPause}
+          next={next}
+          previous={previous}
+          step={state.animation[state.step]}
+          start={state.step === 0}
+          end={state.step === state.animation.length - 1}
+        />
+      );
+  };
   return (
     <div className="columns is-mobile">
       <div className="column is-narrow">
@@ -94,13 +116,10 @@ function App() {
           chooseAlgorithm={chooseAlgorithm}
           arrayLength={state.array.length}
           speed={state.speed}
-          // selectedAlgorithm={getSelectedAlgorithm()}
           algorithms={state.algorithms}
         />
       </div>
-      <div className="column">
-        <Animation startAnimation={startAnimation} array={state.array} />
-      </div>
+      <div className="column">{animation()}</div>
     </div>
   );
 }

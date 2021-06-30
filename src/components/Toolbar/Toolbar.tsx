@@ -23,7 +23,7 @@ const Toolbar = (props: Props) => (
       <section className="py-6" id="size">
         <Slider
           min={10}
-          max={500}
+          max={200}
           label={"size of array"}
           value={props.arrayLength}
           handleChange={props.changeArrayLength}
