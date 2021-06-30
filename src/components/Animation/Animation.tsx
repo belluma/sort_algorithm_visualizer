@@ -23,11 +23,15 @@ const Animation = (props: Props) => {
   const isLesser = (index: number) =>
     index >= props.step.start && index < props.step.border;
   const isGreater = (index: number) =>
-    index >= props.step.border && index < props.step.index;
+    index >= props.step.border && index <= props.step.index;
+  const isNew = (index: number) =>
+    props.step.newArray && index >= props.step.start && index <= props.step.end;
   // const isUnsorted = (index: number) =>
   //   index >= props.step.index && index < props.step.end;
   const colorize = (index: number): string => {
-    return isPivot(index)
+    return isNew(index)
+      ? "red"
+      : isPivot(index)
       ? "blue"
       : isLesser(index)
       ? "darkcyan"

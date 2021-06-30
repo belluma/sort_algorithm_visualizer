@@ -4,4 +4,5 @@ export default interface iStep {
   end: number;
   index: number;
   border: number;
+  newArray: boolean;
 }
