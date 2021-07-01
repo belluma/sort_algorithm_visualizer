@@ -5,6 +5,8 @@ import { IconButton } from "@material-ui/core";
 import PlayIcon from "@material-ui/icons/PlayArrow";
 import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
 import SkipNextIcon from "@material-ui/icons/SkipNext";
+// import { quickSortStep } from "../../interfaces/animationStep";
+// import { mergeSortStep } from "../../interfaces/animationStep";
 import step from "../../interfaces/animationStep";
 
 type Props = {
@@ -21,13 +23,19 @@ const Animation = (props: Props) => {
   const array = props.step.array;
   const isPivot = (index: number) => index === props.step.end;
   const isLesser = (index: number) =>
-    index >= props.step.start && index < props.step.border;
+    !props.step.start || !props.step.border
+      ? false
+      : index >= props.step.start && index < props.step.border;
   const isGreater = (index: number) =>
-    index >= props.step.border && index <= props.step.index;
+    !props.step.border || !props.step.index
+      ? false
+      : index >= props.step.border && index <= props.step.index;
   const isNew = (index: number) =>
-    props.step.newArray && index >= props.step.start && index <= props.step.end;
-  // const isUnsorted = (index: number) =>
-  //   index >= props.step.index && index < props.step.end;
+    !props.step.start || !props.step.end
+      ? false
+      : props.step.newArray &&
+        index >= props.step.start &&
+        index <= props.step.end;
   const colorize = (index: number): string => {
     return isNew(index)
       ? "red"

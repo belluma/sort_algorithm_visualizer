@@ -5,8 +5,8 @@ import Toolbar from "./components/Toolbar/Toolbar";
 import Animation from "./components/Animation/Animation";
 import { ChangeEvent } from "react";
 import qSort from "./algorithms/qSort";
+import mergeSort from "./algorithms/mergeSort";
 import iState from "./interfaces/state";
-import iStep from "./interfaces/animationStep";
 
 function App() {
   const createRandomArray = (length: number): number[] => {
@@ -23,7 +23,7 @@ function App() {
       {
         name: "mergesort",
         selected: false,
-        getAnimation: qSort,
+        getAnimation: mergeSort,
       },
     ],
     selectedAlgorithm: qSort,
@@ -39,7 +39,9 @@ function App() {
   }, [state.selectedAlgorithm, state.array]);
 
   useEffect(() => {
-    console.log("step", state.step);
+    const animate = () => {
+      setState({ ...state, step: state.step + 1 });
+    };
     if (state.play) {
       const timer = setTimeout(
         () => animate(),
@@ -85,9 +87,6 @@ function App() {
   if (state.animation && state.step >= state.animation.length - 1 && state.play)
     setState({ ...state, play: false });
 
-  const animate = () => {
-    setState({ ...state, step: state.step + 1 });
-  };
   const next = () => {
     setState({ ...state, step: state.step + 1 });
   };
