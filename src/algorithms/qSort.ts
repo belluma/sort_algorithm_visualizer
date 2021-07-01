@@ -1,7 +1,7 @@
-// import { quickSortStep } from "../interfaces/animationStep";
+import { quickSortStep } from "../interfaces/animationStep";
 import step from "../interfaces/animationStep";
 
-const meta = (array: number[]) => {
+const meta = (array: number[]): step[] => {
   const animations: step[] = [];
   const updateStep = (
     start: number,
@@ -9,7 +9,7 @@ const meta = (array: number[]) => {
     index: number,
     border: number,
     newArray: boolean = false
-  ) => {
+  ): step => {
     return {
       array: [...array],
       start: start,
@@ -17,6 +17,7 @@ const meta = (array: number[]) => {
       index: index,
       border: border,
       newArray: newArray,
+      method: "quick",
     };
   };
   const quickSort = (start: number, end: number) => {
@@ -31,6 +32,7 @@ const meta = (array: number[]) => {
         index: -1,
         border: start,
         newArray: true,
+        method: "quick",
       };
       animations.push(step);
       for (let i = start; i < end; i++) {

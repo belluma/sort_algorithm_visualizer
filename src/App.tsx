@@ -19,14 +19,14 @@ function App() {
     speed: 1,
     step: 0,
     algorithms: [
-      { name: "quicksort", selected: true, getAnimation: qSort },
+      { name: "quicksort", selected: false, getAnimation: qSort },
       {
         name: "mergesort",
-        selected: false,
+        selected: true,
         getAnimation: mergeSort,
       },
     ],
-    selectedAlgorithm: qSort,
+    selectedAlgorithm: mergeSort,
     play: false,
   });
   useEffect(() => {

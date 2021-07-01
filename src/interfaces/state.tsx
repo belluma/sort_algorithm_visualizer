@@ -1,5 +1,5 @@
 import algorithm from "./algorithm";
-// import { quickSortStep } from "./animationStep";
+import { quickSortStep } from "./animationStep";
 // import { mergeSortStep } from "./animationStep";
 import step from "./animationStep";
 

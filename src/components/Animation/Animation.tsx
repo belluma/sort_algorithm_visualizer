@@ -5,9 +5,9 @@ import { IconButton } from "@material-ui/core";
 import PlayIcon from "@material-ui/icons/PlayArrow";
 import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
 import SkipNextIcon from "@material-ui/icons/SkipNext";
+import step from "../../interfaces/animationStep";
 // import { quickSortStep } from "../../interfaces/animationStep";
 // import { mergeSortStep } from "../../interfaces/animationStep";
-import step from "../../interfaces/animationStep";
 
 type Props = {
   step: step;
@@ -21,22 +21,23 @@ type Props = {
 const Animation = (props: Props) => {
   const bars: ReactElement[] = [];
   const array = props.step.array;
-  const isPivot = (index: number) => index === props.step.end;
-  const isLesser = (index: number) =>
-    !props.step.start || !props.step.border
-      ? false
-      : index >= props.step.start && index < props.step.border;
-  const isGreater = (index: number) =>
-    !props.step.border || !props.step.index
-      ? false
-      : index >= props.step.border && index <= props.step.index;
   const isNew = (index: number) =>
-    !props.step.start || !props.step.end
+    props.step.start === undefined || props.step.end === undefined
       ? false
       : props.step.newArray &&
         index >= props.step.start &&
         index <= props.step.end;
-  const colorize = (index: number): string => {
+
+  const colorizeQuick = (index: number) => {
+    const isPivot = (index: number) => index === props.step.end;
+    const isLesser = (index: number) =>
+      props.step.start === undefined || props.step.border === undefined
+        ? false
+        : index >= props.step.start && index < props.step.border;
+    const isGreater = (index: number) =>
+      props.step.border === undefined || props.step.index === undefined
+        ? false
+        : index >= props.step.border && index <= props.step.index;
     return isNew(index)
       ? "red"
       : isPivot(index)
@@ -47,7 +48,22 @@ const Animation = (props: Props) => {
       ? "navajowhite"
       : "black";
   };
-
+  const colorizeMerge = (index: number) => {
+    const isLeft = (index: number) => index === props.step.indexLeft;
+    const isRight = (index: number) => index === props.step.indexRight;
+    return isNew(index)
+      ? "red"
+      : isLeft(index)
+      ? "darkcyan"
+      : isRight(index)
+      ? "navajowhite"
+      : "black";
+  };
+  console.log(props.step);
+  const colorize = (index: number): string => {
+    if (props.step.method === "quick") return colorizeQuick(index);
+    else return colorizeMerge(index);
+  };
   array.forEach((a, i) =>
     bars.push(
       <Bar value={a} arrayLength={array.length} key={i} color={colorize(i)} />
