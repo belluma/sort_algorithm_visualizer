@@ -93,6 +93,9 @@ function App() {
   const previous = () => {
     setState({ ...state, step: state.step - 1 });
   };
+  const reset = () => {
+    setState({ ...state, step: 0, play: false });
+  };
   const animation = () => {
     if (state.animation)
       return (
@@ -100,6 +103,8 @@ function App() {
           startAnimation={startPause}
           next={next}
           previous={previous}
+          reset={reset}
+          play={state.play}
           step={state.animation[state.step]}
           start={state.step === 0}
           end={state.step === state.animation.length - 1}

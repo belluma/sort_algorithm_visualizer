@@ -3,8 +3,10 @@ import styles from "./Animation.module.css";
 import Bar from "../Bar/Bar";
 import { IconButton } from "@material-ui/core";
 import PlayIcon from "@material-ui/icons/PlayArrow";
+import PauseIcon from "@material-ui/icons/Pause";
 import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
 import SkipNextIcon from "@material-ui/icons/SkipNext";
+import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import step from "../../interfaces/animationStep";
 // import { quickSortStep } from "../../interfaces/animationStep";
 // import { mergeSortStep } from "../../interfaces/animationStep";
@@ -14,6 +16,8 @@ type Props = {
   startAnimation: () => void;
   next: () => void;
   previous: () => void;
+  reset: () => void;
+  play: boolean;
   start: boolean;
   end: boolean;
 };
@@ -59,11 +63,13 @@ const Animation = (props: Props) => {
       ? "navajowhite"
       : "black";
   };
-  console.log(props.step);
+
   const colorize = (index: number): string => {
     if (props.step.method === "quick") return colorizeQuick(index);
     else return colorizeMerge(index);
   };
+
+  const playPause = props.play ? <PauseIcon /> : <PlayIcon />;
   array.forEach((a, i) =>
     bars.push(
       <Bar value={a} arrayLength={array.length} key={i} color={colorize(i)} />
@@ -81,10 +87,17 @@ const Animation = (props: Props) => {
           <SkipPreviousIcon />
         </IconButton>
         <IconButton onClick={props.startAnimation} aria-label="play">
-          <PlayIcon />
+          {playPause}
         </IconButton>
         <IconButton onClick={props.next} aria-label="play" disabled={props.end}>
           <SkipNextIcon />
+        </IconButton>
+        <IconButton
+          onClick={props.reset}
+          aria-label="play"
+          disabled={props.end}
+        >
+          <RotateLeftIcon />
         </IconButton>
       </div>
     </div>
