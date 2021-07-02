@@ -46,7 +46,6 @@ const meta = (array: number[]): step[] => {
       while (indexLeft < left.length && indexRight < right.length) {
         animations.push(updateStep());
         if (left[indexLeft] < right[indexRight]) {
-          // animations.push(updateStep());
           result.push(left[indexLeft]);
 
           indexLeft++;
@@ -63,7 +62,6 @@ const meta = (array: number[]): step[] => {
     return merge(mergeSort(left), mergeSort(right));
   };
   mergeSort(array);
-
   return animations;
 };
 export default meta;

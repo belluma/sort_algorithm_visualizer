@@ -6,6 +6,7 @@ import Animation from "./components/Animation/Animation";
 import { ChangeEvent } from "react";
 import qSort from "./algorithms/qSort";
 import mergeSort from "./algorithms/mergeSort";
+import heapSort from "./algorithms/heapsort";
 import iState from "./interfaces/state";
 
 function App() {
@@ -22,11 +23,12 @@ function App() {
       { name: "quicksort", selected: false, getAnimation: qSort },
       {
         name: "mergesort",
-        selected: true,
+        selected: false,
         getAnimation: mergeSort,
       },
+      { name: "heapsort", selected: true, getAnimation: heapSort },
     ],
-    selectedAlgorithm: mergeSort,
+    selectedAlgorithm: heapSort,
     play: false,
   });
   useEffect(() => {

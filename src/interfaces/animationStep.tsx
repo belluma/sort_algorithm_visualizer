@@ -7,7 +7,7 @@ export default interface iStep {
   newArray?: boolean;
   indexLeft?: number;
   indexRight?: number;
-  method: "quick" | "merge";
+  method: "quick" | "merge" | "heap";
   aux?: any;
 }
 

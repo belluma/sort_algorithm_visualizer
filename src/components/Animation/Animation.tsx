@@ -92,11 +92,7 @@ const Animation = (props: Props) => {
         <IconButton onClick={props.next} aria-label="play" disabled={props.end}>
           <SkipNextIcon />
         </IconButton>
-        <IconButton
-          onClick={props.reset}
-          aria-label="play"
-          disabled={props.end}
-        >
+        <IconButton onClick={props.reset} aria-label="play">
           <RotateLeftIcon />
         </IconButton>
       </div>
