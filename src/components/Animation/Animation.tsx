@@ -32,7 +32,7 @@ const Animation = (props: Props) => {
         index >= props.step.start &&
         index <= props.step.end;
 
-  const colorizeQuick = (index: number) => {
+  function colorizeQuick(index: number) {
     const isPivot = (index: number) => index === props.step.end;
     const isLesser = (index: number) =>
       props.step.start === undefined || props.step.border === undefined
@@ -51,8 +51,8 @@ const Animation = (props: Props) => {
       : isGreater(index)
       ? "navajowhite"
       : "black";
-  };
-  const colorizeMerge = (index: number) => {
+  }
+  function colorizeMerge(index: number) {
     const isLeft = (index: number) => index === props.step.indexLeft;
     const isRight = (index: number) => index === props.step.indexRight;
     return isNew(index)
@@ -62,12 +62,30 @@ const Animation = (props: Props) => {
       : isRight(index)
       ? "navajowhite"
       : "black";
-  };
+  }
+  function colorizeHeap(index: number) {
+    const isSorted = (index: number) =>
+      props.step.end ? index >= props.step.end : false;
+    const isHeap = (index: number) =>
+      props.step.end ? index < props.step.end : false;
+    const getsMovedForwardInHeap = (index: number) =>
+      index === props.step.index;
+    const getsMovedBackwardInHeap = (index: number) =>
+      index === props.step.start;
+    return isSorted(index)
+      ? "blue"
+      : getsMovedForwardInHeap(index)
+      ? "navajowhite"
+      : getsMovedBackwardInHeap(index)
+      ? "darkcyan"
+      : "gold";
+  }
 
-  const colorize = (index: number): string => {
+  function colorize(index: number): string {
     if (props.step.method === "quick") return colorizeQuick(index);
-    else return colorizeMerge(index);
-  };
+    else if (props.step.method === "merge") return colorizeMerge(index);
+    else return colorizeHeap(index);
+  }
 
   const playPause = props.play ? <PauseIcon /> : <PlayIcon />;
   array.forEach((a, i) =>

@@ -6,28 +6,27 @@ function heapSort(array: number[]): step[] {
   let sorted: number[] = [];
   const animation: step[] = [updateStep()];
 
-  function updateStep(): step {
+  function updateStep(parent: number = -1, child: number = -1): step {
     return {
       array: [...array, ...sorted],
       method: "heap",
-      index: array.length,
+      end: array.length,
+      index: parent,
+      start: child,
     };
   }
   function heapify() {
     const getParentIndex = (childIndex: number) =>
       Math.floor((childIndex - 1) / 2);
     function swapWithParent(childIndex: number) {
-      if (
-        childIndex == 0 ||
-        array[getParentIndex(childIndex)] >= array[childIndex]
-      )
-        return;
-      [array[getParentIndex(childIndex)], array[childIndex]] = [
+      const parentIndex = getParentIndex(childIndex);
+      if (childIndex == 0 || array[parentIndex] >= array[childIndex]) return;
+      [array[parentIndex], array[childIndex]] = [
         array[childIndex],
-        array[getParentIndex(childIndex)],
+        array[parentIndex],
       ];
-      animation.push(updateStep());
-      swapWithParent(getParentIndex(childIndex));
+      animation.push(updateStep(parentIndex, childIndex));
+      swapWithParent(parentIndex);
     }
     for (let i in array) swapWithParent(parseInt(i));
   }
