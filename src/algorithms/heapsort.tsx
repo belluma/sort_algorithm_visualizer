@@ -5,16 +5,14 @@ export default heapSort;
 function heapSort(array: number[]): step[] {
   let sorted: number[] = [];
   const animation: step[] = [updateStep()];
-
-  function updateStep(parent: number = -1, child: number = -1): step {
-    return {
-      array: [...array, ...sorted],
-      method: "heap",
-      end: array.length,
-      index: parent,
-      start: child,
-    };
+  while (array.length) {
+    heapify();
+    const x = array.shift();
+    if (x) sorted.unshift(x);
+    animation.push(updateStep());
   }
+  return animation;
+
   function heapify() {
     const getParentIndex = (childIndex: number) =>
       Math.floor((childIndex - 1) / 2);
@@ -30,12 +28,13 @@ function heapSort(array: number[]): step[] {
     }
     for (let i in array) swapWithParent(parseInt(i));
   }
-
-  while (array.length) {
-    heapify();
-    const x = array.shift();
-    if (x) sorted.unshift(x);
-    animation.push(updateStep());
+  function updateStep(parent: number = -1, child: number = -1): step {
+    return {
+      array: [...array, ...sorted],
+      method: "heap",
+      end: array.length,
+      index: parent,
+      start: child,
+    };
   }
-  return animation;
 }

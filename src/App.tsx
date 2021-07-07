@@ -3,10 +3,13 @@ import "./App.css";
 import "bulma/css/bulma.min.css";
 import Toolbar from "./components/Toolbar/Toolbar";
 import Animation from "./components/Animation/Animation";
+
 import { ChangeEvent } from "react";
 import qSort from "./algorithms/qSort";
 import mergeSort from "./algorithms/mergeSort";
 import heapSort from "./algorithms/heapsort";
+import bubbleSort from "./algorithms/bubbleSort";
+
 import iState from "./interfaces/state";
 
 function App() {
@@ -26,9 +29,10 @@ function App() {
         selected: false,
         getAnimation: mergeSort,
       },
-      { name: "heapsort", selected: true, getAnimation: heapSort },
+      { name: "heapsort", selected: false, getAnimation: heapSort },
+      { name: "bubblesort", selected: true, getAnimation: bubbleSort },
     ],
-    selectedAlgorithm: heapSort,
+    selectedAlgorithm: bubbleSort,
     play: false,
   });
   useEffect(() => {

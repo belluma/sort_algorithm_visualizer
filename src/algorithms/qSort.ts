@@ -1,26 +1,15 @@
 import { quickSortStep } from "../interfaces/animationStep";
 import step from "../interfaces/animationStep";
 
-const meta = (array: number[]): step[] => {
+export default meta;
+
+function meta(array: number[]): step[] {
   const animations: step[] = [];
-  const updateStep = (
-    start: number,
-    end: number,
-    index: number,
-    border: number,
-    newArray: boolean = false
-  ): step => {
-    return {
-      array: [...array],
-      start: start,
-      end: end,
-      index: index,
-      border: border,
-      newArray: newArray,
-      method: "quick",
-    };
-  };
-  const quickSort = (start: number, end: number) => {
+  quickSort(0, array.length - 1);
+  animations.push(updateStep(0, array.length - 1, 0, 0, true));
+  return animations;
+
+  function quickSort(start: number, end: number) {
     if (end - start > 0) {
       const pivot: number = array[end];
       let border: number = start;
@@ -48,9 +37,22 @@ const meta = (array: number[]): step[] => {
       quickSort(start, border - 1);
       quickSort(border + 1, end);
     }
-  };
-  quickSort(0, array.length - 1);
-  animations.push(updateStep(0, array.length - 1, 0, 0, true));
-  return animations;
-};
-export default meta;
+  }
+  function updateStep(
+    start: number,
+    end: number,
+    index: number,
+    border: number,
+    newArray: boolean = false
+  ): step {
+    return {
+      array: [...array],
+      start: start,
+      end: end,
+      index: index,
+      border: border,
+      newArray: newArray,
+      method: "quick",
+    };
+  }
+}

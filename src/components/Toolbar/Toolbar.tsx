@@ -13,7 +13,6 @@ type Props = {
   chooseAlgorithm: (e: any) => void;
   arrayLength: number;
   speed: number;
-  // selectedAlgorithm: algorithm;
   algorithms: algorithm[];
 };
 
@@ -40,7 +39,6 @@ const Toolbar = (props: Props) => (
       </section>
       <section className="py-6" id="algorithm">
         <Dropdown
-          // value={props.selectedAlgorithm}
           algorithms={props.algorithms}
           handleChange={props.chooseAlgorithm}
         />

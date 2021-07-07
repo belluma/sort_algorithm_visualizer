@@ -6,7 +6,6 @@ import algorithm from "../../interfaces/algorithm";
 
 type Props = {
   algorithms: algorithm[];
-  // value: algorithm;
   handleChange: (e: any) => void;
 };
 
@@ -14,7 +13,6 @@ const Dropdown = (props: Props) => {
   const selectedAlgorithm = props.algorithms.filter(
     (a) => a.selected === true
   )[0].name;
-  // console.log(props.value);
   const algorithms = props.algorithms;
   const menuItems: ReactElement[] = [];
   algorithms.forEach((a, i) => {
