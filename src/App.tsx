@@ -9,6 +9,7 @@ import qSort from "./algorithms/qSort";
 import mergeSort from "./algorithms/mergeSort";
 import heapSort from "./algorithms/heapsort";
 import bubbleSort from "./algorithms/bubbleSort";
+import insertionSort from "./algorithms/insertionSort";
 
 import iState from "./interfaces/state";
 
@@ -30,9 +31,10 @@ function App() {
         getAnimation: mergeSort,
       },
       { name: "heapsort", selected: false, getAnimation: heapSort },
-      { name: "bubblesort", selected: true, getAnimation: bubbleSort },
+      { name: "bubblesort", selected: false, getAnimation: bubbleSort },
+      { name: "insertionsort", selected: true, getAnimation: insertionSort },
     ],
-    selectedAlgorithm: bubbleSort,
+    selectedAlgorithm: insertionSort,
     play: false,
   });
   useEffect(() => {

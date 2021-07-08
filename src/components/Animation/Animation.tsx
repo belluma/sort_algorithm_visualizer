@@ -53,7 +53,7 @@ const Animation = (props: Props) => {
       ? "navajowhite"
       : "black";
   }
-  function colorizeMerge(index: number) {
+  function colorizeRest(index: number) {
     return isNew(index)
       ? "red"
       : isLeft(index)
@@ -77,20 +77,11 @@ const Animation = (props: Props) => {
       ? "darkcyan"
       : "gold";
   }
-  function colorizeBubble(index: number) {
-    return isNew(index)
-      ? "red"
-      : isLeft(index)
-      ? "navajowhite"
-      : isRight(index)
-      ? "darkcyan"
-      : "gold";
-  }
+
   function colorize(index: number): string {
     if (props.step.method === "quick") return colorizeQuick(index);
-    else if (props.step.method === "merge") return colorizeMerge(index);
-    else if (props.step.method === "bubble") return colorizeBubble(index);
-    else return colorizeHeap(index);
+    else if (props.step.method === "heap") return colorizeHeap(index);
+    else return colorizeRest(index);
   }
 
   const playPause = props.play ? <PauseIcon /> : <PlayIcon />;

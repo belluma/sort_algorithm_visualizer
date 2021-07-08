@@ -18,7 +18,7 @@ function heapSort(array: number[]): step[] {
       Math.floor((childIndex - 1) / 2);
     function swapWithParent(childIndex: number) {
       const parentIndex = getParentIndex(childIndex);
-      if (childIndex == 0 || array[parentIndex] >= array[childIndex]) return;
+      if (childIndex === 0 || array[parentIndex] >= array[childIndex]) return;
       [array[parentIndex], array[childIndex]] = [
         array[childIndex],
         array[parentIndex],

@@ -7,15 +7,6 @@ export default interface iStep {
   newArray?: boolean;
   indexLeft?: number;
   indexRight?: number;
-  method: "quick" | "merge" | "heap" | "bubble";
+  method: "quick" | "merge" | "heap" | "bubble" | "insert";
   aux?: any;
-}
-
-export interface quickSortStep {
-  array: number[];
-  start: number;
-  end: number;
-  index: number;
-  border: number;
-  newArray: boolean;
 }
