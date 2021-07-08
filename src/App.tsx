@@ -5,7 +5,7 @@ import Toolbar from "./components/Toolbar/Toolbar";
 import Animation from "./components/Animation/Animation";
 
 import { ChangeEvent } from "react";
-import qSort from "./algorithms/qSort";
+import quickSort from "./algorithms/qSort";
 import mergeSort from "./algorithms/mergeSort";
 import heapSort from "./algorithms/heapsort";
 import bubbleSort from "./algorithms/bubbleSort";
@@ -24,7 +24,7 @@ function App() {
     speed: 1,
     step: 0,
     algorithms: [
-      { name: "quicksort", selected: false, getAnimation: qSort },
+      { name: "quicksort", selected: true, getAnimation: quickSort },
       {
         name: "mergesort",
         selected: false,
@@ -32,9 +32,9 @@ function App() {
       },
       { name: "heapsort", selected: false, getAnimation: heapSort },
       { name: "bubblesort", selected: false, getAnimation: bubbleSort },
-      { name: "insertionsort", selected: true, getAnimation: insertionSort },
+      { name: "insertionsort", selected: false, getAnimation: insertionSort },
     ],
-    selectedAlgorithm: insertionSort,
+    selectedAlgorithm: quickSort,
     play: false,
   });
   useEffect(() => {
@@ -120,19 +120,30 @@ function App() {
       );
   };
   return (
-    <div className="columns is-mobile">
-      <div className="column is-narrow">
-        <Toolbar
-          changeArrayLength={changeArrayLength}
-          changeSpeed={changeSpeed}
-          chooseAlgorithm={chooseAlgorithm}
-          arrayLength={state.array.length}
-          speed={state.speed}
-          algorithms={state.algorithms}
-        />
+    <section className="hero is-fullheight has-background-link-light">
+      <div className="hero-head">
+        <div className="container pt-6">
+          <p className="title">Sorting Algorithm Visualizer</p>
+        </div>
       </div>
-      <div className="column">{animation()}</div>
-    </div>
+      <div className="hero-body">
+        <div className="container is-fluid">
+          <div className="columns is-mobile m-0 p-0">
+            <div className="column is-narrow">
+              <Toolbar
+                changeArrayLength={changeArrayLength}
+                changeSpeed={changeSpeed}
+                chooseAlgorithm={chooseAlgorithm}
+                arrayLength={state.array.length}
+                speed={state.speed}
+                algorithms={state.algorithms}
+              />
+            </div>
+            <div className="column">{animation()}</div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 

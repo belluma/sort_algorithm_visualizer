@@ -44,11 +44,11 @@ const Animation = (props: Props) => {
         ? false
         : index >= props.step.border && index <= props.step.index;
     return isNew(index)
-      ? "red"
+      ? "darkred"
       : isPivot(index)
       ? "blue"
       : isLesser(index)
-      ? "darkcyan"
+      ? "darkblue"
       : isGreater(index)
       ? "navajowhite"
       : "black";
@@ -57,7 +57,7 @@ const Animation = (props: Props) => {
     return isNew(index)
       ? "red"
       : isLeft(index)
-      ? "darkcyan"
+      ? "darkblue"
       : isRight(index)
       ? "navajowhite"
       : "black";
@@ -74,7 +74,7 @@ const Animation = (props: Props) => {
       : getsMovedForwardInHeap(index)
       ? "navajowhite"
       : getsMovedBackwardInHeap(index)
-      ? "darkcyan"
+      ? "darkblue"
       : "gold";
   }
 
