@@ -1,4 +1,4 @@
-export default interface iStep {
+export default interface Step {
   array: number[];
   start?: number;
   end?: number;

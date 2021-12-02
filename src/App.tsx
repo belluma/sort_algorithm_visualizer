@@ -11,26 +11,20 @@ import heapSort from "./algorithms/heapsort";
 import bubbleSort from "./algorithms/bubbleSort";
 import insertionSort from "./algorithms/insertionSort";
 
-import iState from "./interfaces/state";
+import iState, {TAlgorithm} from "./interfaces/state";
 import {createRandomArray} from "./helper";
+import algorithms from "./algorithms/algorithms";
 
 function App() {
+
+  const [toBeSorted, setToBeSorted] = useState<number[]>(createRandomArray(10));
+  const [sortWith, setSortWith] = useState({algorithm: quickSort });
 
   const [state, setState] = useState<iState>({
     array: createRandomArray(10),
     speed: 1,
     step: 0,
-    algorithms: [
-      { name: "quicksort", selected: true, getAnimation: quickSort },
-      {
-        name: "mergesort",
-        selected: false,
-        getAnimation: mergeSort,
-      },
-      { name: "heapsort", selected: false, getAnimation: heapSort },
-      { name: "bubblesort", selected: false, getAnimation: bubbleSort },
-      { name: "insertionsort", selected: false, getAnimation: insertionSort },
-    ],
+    algorithms: algorithms,
     selectedAlgorithm: quickSort,
     play: false,
   });
@@ -61,10 +55,11 @@ function App() {
     length: number | number[]
   ): void => {
     if (typeof length === "number") {
-      setState({
-        ...state,
-        array: createRandomArray(length),
-      });
+      setToBeSorted(createRandomArray(length));
+      // setState({
+      //   ...state,
+      //   array: createRandomArray(length),
+      // });
     }
   };
   const changeSpeed = (
