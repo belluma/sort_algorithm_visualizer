@@ -12,13 +12,10 @@ import bubbleSort from "./algorithms/bubbleSort";
 import insertionSort from "./algorithms/insertionSort";
 
 import iState from "./interfaces/state";
+import {createRandomArray} from "./helper";
 
 function App() {
-  const createRandomArray = (length: number): number[] => {
-    return [...Array(length)].map(
-      (a) => (a = Math.ceil(Math.random() * length))
-    );
-  };
+
   const [state, setState] = useState<iState>({
     array: createRandomArray(10),
     speed: 1,
