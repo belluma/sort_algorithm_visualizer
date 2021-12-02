@@ -8,7 +8,7 @@ export default interface state {
   array?: number[];
   speed: number;
   step: number;
-  algorithms: algorithm[];
-  selectedAlgorithm: (array: number[]) => step[];
+  algorithms?: algorithm[];
+  selectedAlgorithm?: (array: number[]) => step[];
   play: boolean;
 }
