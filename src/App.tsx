@@ -31,11 +31,11 @@ function App() {
   useEffect(() => {
     setState({
       ...state,
-      animation: state.selectedAlgorithm([...state.array]),
+      animation: state.selectedAlgorithm([...toBeSorted]),
       step: 0,
       play: false,
     });
-  }, [state.selectedAlgorithm, state.array]);
+  }, [state.selectedAlgorithm, toBeSorted]);
 
   useEffect(() => {
     const animate = () => {
@@ -125,7 +125,7 @@ function App() {
                 changeArrayLength={changeArrayLength}
                 changeSpeed={changeSpeed}
                 chooseAlgorithm={chooseAlgorithm}
-                arrayLength={state.array.length}
+                arrayLength={toBeSorted.length}
                 speed={state.speed}
                 algorithms={state.algorithms}
               />
