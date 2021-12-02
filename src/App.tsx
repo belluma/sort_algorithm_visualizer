@@ -77,9 +77,6 @@ function App() {
     if (typeof value === "number") setState({ ...state, speed: value });
   };
 
-  const startPause = (): void => {
-    setState({ ...state, play: !state.play });
-  };
   const chooseAlgorithm = (event: any): void => {
     const algorithms = [...state.algorithms];
     algorithms.forEach((a) => (a.selected = false));
@@ -94,7 +91,9 @@ function App() {
   };
   if (state.animation && state.step >= state.animation.length - 1 && state.play)
     setState({ ...state, play: false });
-
+  const startPause = (): void => {
+    setState({ ...state, play: !state.play });
+  };
   const next = () => {
     setState({ ...state, step: state.step + 1 });
   };

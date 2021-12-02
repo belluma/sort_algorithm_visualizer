@@ -1,46 +1,37 @@
-# Getting Started with Create React App
+# A tool to visualize the methodical difference of several common sorting algorithms
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Preparation
 
-## Available Scripts
+- clone the repository
+- go in the project root and run yarn install
+- from the project root run yarn start to start the app on 'localhost:3000'
 
-In the project directory, you can run:
+## Usage
 
-### `npm start`
+There are two sliders to change the length of the array to be sorted and the speed of the animation as well as one
+dropdown to select the algorithm to use for sorting the array on the left-hand side of the screen On the right-hand side
+of the screen you will see the array visualized as a collection of beams. The height of the beams represents the value
+of the entries.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### choose the length of the array you want to see being sorted
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+with the topmost slider you can determine the length of the array to be sorted. When changing the values on the slider
+you will see how the visualization of the array changes.
 
-### `npm test`
+### choose the animation speed
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+the second slider gives you the possibility to change the speed in which the animation is shown. Depending on the sort
+algorithm you choose the amount of steps needed to sort an array may differ significantly. The length of the array
+obviously has effect on the duration of the sort as well. Hence, this setting. You may change the speed while the
+animation is running.
 
-### `npm run build`
+### choose the sorting algorithm
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Pretty self-explanatory, choose the sorting algorithm you want to see visualized. When changing this value, the
+animation will jump back to the beginning but not generate a new array. This gives you the possibility to compare the
+efficiency of different algorithms on the same array.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Playback options
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+beneath the visualization of the array you will find playback buttons. There's one button to play/pause the animation,
+two buttons to go the next/previous step and one button to rewind the animation to the beginning.
