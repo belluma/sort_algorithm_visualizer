@@ -5,7 +5,7 @@ export type TAlgorithm = (toBeSorted: number[]) => step[];
 
 export default interface state {
   animation?: step[];
-  array: number[];
+  array?: number[];
   speed: number;
   step: number;
   algorithms: algorithm[];

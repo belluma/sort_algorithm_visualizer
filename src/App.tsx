@@ -6,10 +6,6 @@ import Animation from "./components/Animation/Animation";
 
 import { ChangeEvent } from "react";
 import quickSort from "./algorithms/qSort";
-import mergeSort from "./algorithms/mergeSort";
-import heapSort from "./algorithms/heapsort";
-import bubbleSort from "./algorithms/bubbleSort";
-import insertionSort from "./algorithms/insertionSort";
 
 import iState, {TAlgorithm} from "./interfaces/state";
 import {createRandomArray} from "./helper";
@@ -18,10 +14,10 @@ import algorithms from "./algorithms/algorithms";
 function App() {
 
   const [toBeSorted, setToBeSorted] = useState<number[]>(createRandomArray(10));
-  const [sortWith, setSortWith] = useState({algorithm: quickSort });
+  const [algorithmOptions, setAlgorithmOptions] = useState(algorithms);
+  const [sortWith, setSortWith] = useState(algorithms[0]);
 
   const [state, setState] = useState<iState>({
-    array: createRandomArray(10),
     speed: 1,
     step: 0,
     algorithms: algorithms,
@@ -56,10 +52,6 @@ function App() {
   ): void => {
     if (typeof length === "number") {
       setToBeSorted(createRandomArray(length));
-      // setState({
-      //   ...state,
-      //   array: createRandomArray(length),
-      // });
     }
   };
   const changeSpeed = (
@@ -70,16 +62,20 @@ function App() {
   };
 
   const chooseAlgorithm = (event: any): void => {
-    const algorithms = [...state.algorithms];
-    algorithms.forEach((a) => (a.selected = false));
-    const selected = algorithms.filter((a) => a.name === event.target.value)[0];
-    selected.selected = true;
-
-    setState({
-      ...state,
-      algorithms: algorithms,
-      selectedAlgorithm: selected.getAnimation,
-    });
+   const options = [...algorithmOptions.map(a => a.name === event.target.value ? {...a, selected: true}: {...a, selected: false})]
+    setAlgorithmOptions(options)
+    setSortWith(options.find(o => o.name === event.target.value) || algorithms[0]);
+    //
+    // const algorithms = [...state.algorithms];
+    // algorithms.forEach((a) => (a.selected = false));
+    // const selected = algorithms.filter((a) => a.name === event.target.value)[0];
+    // selected.selected = true;
+    //
+    // setState({
+    //   ...state,
+    //   algorithms: algorithms,
+    //   selectedAlgorithm: selected.getAnimation,
+    // });
   };
   if (state.animation && state.step >= state.animation.length - 1 && state.play)
     setState({ ...state, play: false });
@@ -127,7 +123,7 @@ function App() {
                 chooseAlgorithm={chooseAlgorithm}
                 arrayLength={toBeSorted.length}
                 speed={state.speed}
-                algorithms={state.algorithms}
+                algorithms={algorithmOptions}
               />
             </div>
             <div className="column">{animation()}</div>
