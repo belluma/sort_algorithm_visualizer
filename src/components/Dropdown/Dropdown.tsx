@@ -1,5 +1,4 @@
 import React, { ReactElement } from "react";
-import styles from "./Dropdown.module.css";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import algorithm from "../../interfaces/algorithm";
@@ -11,7 +10,7 @@ type Props = {
 
 const Dropdown = (props: Props) => {
   const selectedAlgorithm = props.algorithms.filter(
-    (a) => a.selected === true
+    (a) => a.selected
   )[0].name;
   const algorithms = props.algorithms;
   const menuItems: ReactElement[] = [];
@@ -24,7 +23,6 @@ const Dropdown = (props: Props) => {
   });
 
   return (
-    <div className={styles.Dropdown}>
       <Select
         labelId="algorithm-selector-label"
         id="algorithm-selector"
@@ -33,7 +31,6 @@ const Dropdown = (props: Props) => {
       >
         {menuItems}
       </Select>
-    </div>
   );
 };
 

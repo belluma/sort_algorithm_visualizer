@@ -1,7 +1,6 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
-import styles from "./Slider.module.css";
 import { ChangeEvent } from "react";
 
 type Props = {
@@ -14,7 +13,7 @@ type Props = {
 
 const MySlider = (props: Props) => {
   return (
-    <div className={styles.Slider}>
+    <div >
       <Typography id="continuous-slider" gutterBottom>
         {props.label}
       </Typography>

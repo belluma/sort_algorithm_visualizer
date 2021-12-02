@@ -1,5 +1,4 @@
 import React, { ChangeEvent } from "react";
-import styles from "./Toolbar.module.css";
 import Dropdown from "../Dropdown/Dropdown";
 import Slider from "../Slider/Slider";
 import algorithm from "../../interfaces/algorithm";
@@ -17,7 +16,7 @@ type Props = {
 };
 
 const Toolbar = (props: Props) => (
-  <div className={styles.Toolbar}>
+  <div >
     <section className="p-6 m-6">
       <section className="py-6" id="size">
         <Slider
