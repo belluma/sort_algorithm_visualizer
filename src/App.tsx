@@ -11,41 +11,45 @@ import iState, {TAlgorithm} from "./interfaces/state";
 import {createRandomArray} from "./helper";
 import algorithms from "./algorithms/algorithms";
 import Step from "./interfaces/animationStep";
+import usePlayback from "./hooks/usePlayback";
 
 function App() {
 
     const [toBeSorted, setToBeSorted] = useState<number[]>(createRandomArray(10));
     const [algorithmOptions, setAlgorithmOptions] = useState(algorithms);
     const [animation, setAnimation] = useState<Step[]>([])
-    const [playback, setPlayback] = useState<iState>({
-        speed: 1,
-        step: 0,
-        play: false,
-    });
+    const [speed, setSpeed] = useState(1);
+    const {setPlay, play, step, startPause, next, previous, reset} = usePlayback();
+    // const [playback, setPlayback] = useState<iState>({
+    //     speed: 1,
+    //     step: 0,
+    //     play: false,
+    // });
     useEffect(() => {
         getAnimation();
-    }, []);
+    }, [algorithmOptions]);
 
     useEffect(() => {
-        setPlayback({
-            ...playback,
-            step: 0,
-            play: false,
-        });
+        // setPlayback({
+        //     ...playback,
+        //     step: 0,
+        //     play: false,
+        // });
     }, [algorithmOptions, animation, toBeSorted]);
 
     useEffect(() => {
         const animate = () => {
-            setPlayback({...playback, step: playback.step + 1});
+           next()
+            // setPlayback({...playback, step: playback.step + 1});
         };
-        if (playback.play) {
+        if (play) {
             const timer = setTimeout(
                 () => animate(),
-                500 - (2 * playback.speed ** 2 + 20 * playback.speed + 95)
+                500 - (2 * speed ** 2 + 20 * speed + 95)
             );
             return () => clearTimeout(timer);
         }
-    }, [playback.step, playback.play, playback.speed]);
+    }, [step, play, speed]);
 
     const changeArrayLength = (
         event: ChangeEvent<{}>,
@@ -59,12 +63,12 @@ function App() {
         event: ChangeEvent<{}>,
         value: number | number[]
     ): void => {
-        if (typeof value === "number") setPlayback({...playback, speed: value});
+        if (typeof value === "number") setSpeed( value);
     };
     const getAnimation = (options = algorithmOptions) => {
         const selectedAlgorithm = options.find(o => o.selected)
         if (selectedAlgorithm) {
-            setAnimation(selectedAlgorithm.getAnimation(toBeSorted))
+            setAnimation(selectedAlgorithm.getAnimation([...toBeSorted]))
         } else throw new Error()
     }
 
@@ -74,22 +78,11 @@ function App() {
             selected: false
         })]
         setAlgorithmOptions(options)
-        getAnimation(options)
+        // getAnimation(options)
     };
-    if (playback.animation && playback.step >= playback.animation.length - 1 && playback.play)
-        setPlayback({...playback, play: false});
-    const startPause = (): void => {
-        setPlayback({...playback, play: !playback.play});
-    };
-    const next = () => {
-        setPlayback({...playback, step: playback.step + 1});
-    };
-    const previous = () => {
-        setPlayback({...playback, step: playback.step - 1});
-    };
-    const reset = () => {
-        setPlayback({...playback, step: 0, play: false});
-    };
+    if (animation && step >= animation.length - 1 && play)
+        setPlay(false);
+
     return (
         <section className="hero is-fullheight has-background-link-light">
             <div className="hero-head">
@@ -106,7 +99,7 @@ function App() {
                                 changeSpeed={changeSpeed}
                                 chooseAlgorithm={chooseAlgorithm}
                                 arrayLength={toBeSorted.length}
-                                speed={playback.speed}
+                                speed={speed}
                                 algorithms={algorithmOptions}
                             />
                         </div>
@@ -115,10 +108,10 @@ function App() {
                             next={next}
                             previous={previous}
                             reset={reset}
-                            play={playback.play}
-                            step={animation[playback.step]}
-                            start={playback.step === 0}
-                            end={playback.step === animation.length - 1}
+                            play={play}
+                            step={animation[step]}
+                            start={step === 0}
+                            end={step === animation.length - 1}
                         /> : <></>}</div>
                     </div>
                 </div>
