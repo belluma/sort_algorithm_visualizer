@@ -50,7 +50,7 @@ function App() {
         if (typeof value === "number") setSpeed(value);
     };
 
-    const chooseAlgorithm = (event: any): void => {
+    const chooseAlgorithm = (event: ChangeEvent<HTMLInputElement>): void => {
         const options = [...algorithmOptions.map(a => a.name === event.target.value ? {...a, selected: true} : {
             ...a,
             selected: false

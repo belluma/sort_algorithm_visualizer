@@ -8,6 +8,7 @@
 
 ## Usage
 
+The app is not optimized for smaller screens.\
 There are two sliders to change the length of the array to be sorted and the speed of the animation as well as one
 dropdown to select the algorithm to use for sorting the array on the left-hand side of the screen On the right-hand side
 of the screen you will see the array visualized as a collection of beams. The height of the beams represents the value

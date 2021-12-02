@@ -9,7 +9,7 @@ type Props = {
     newValue: number | number[]
   ) => void;
   changeSpeed: (event: ChangeEvent<{}>, newValue: number | number[]) => void;
-  chooseAlgorithm: (e: any) => void;
+  chooseAlgorithm: (e: ChangeEvent<HTMLInputElement>) => void;
   arrayLength: number;
   speed: number;
   algorithms: algorithm[];
