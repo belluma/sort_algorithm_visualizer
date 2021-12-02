@@ -16,35 +16,36 @@ function App() {
 
     const [toBeSorted, setToBeSorted] = useState<number[]>(createRandomArray(10));
     const [algorithmOptions, setAlgorithmOptions] = useState(algorithms);
-    // const [sortWith, setSortWith] = useState(algorithms[0].getAnimation);
     const [animation, setAnimation] = useState<Step[]>([])
-
-    const [state, setState] = useState<iState>({
+    const [playback, setPlayback] = useState<iState>({
         speed: 1,
         step: 0,
         play: false,
     });
     useEffect(() => {
-        setState({
-            ...state,
-            // animation: state.selectedAlgorithm([...toBeSorted]),
+        getAnimation();
+    }, []);
+
+    useEffect(() => {
+        setPlayback({
+            ...playback,
             step: 0,
             play: false,
         });
-    }, [state.selectedAlgorithm, toBeSorted]);
+    }, [algorithmOptions, animation, toBeSorted]);
 
     useEffect(() => {
         const animate = () => {
-            setState({...state, step: state.step + 1});
+            setPlayback({...playback, step: playback.step + 1});
         };
-        if (state.play) {
+        if (playback.play) {
             const timer = setTimeout(
                 () => animate(),
-                500 - (2 * state.speed ** 2 + 20 * state.speed + 95)
+                500 - (2 * playback.speed ** 2 + 20 * playback.speed + 95)
             );
             return () => clearTimeout(timer);
         }
-    }, [state.step, state.play, state.speed]);
+    }, [playback.step, playback.play, playback.speed]);
 
     const changeArrayLength = (
         event: ChangeEvent<{}>,
@@ -58,8 +59,14 @@ function App() {
         event: ChangeEvent<{}>,
         value: number | number[]
     ): void => {
-        if (typeof value === "number") setState({...state, speed: value});
+        if (typeof value === "number") setPlayback({...playback, speed: value});
     };
+    const getAnimation = (options = algorithmOptions) => {
+        const selectedAlgorithm = options.find(o => o.selected)
+        if (selectedAlgorithm) {
+            setAnimation(selectedAlgorithm.getAnimation(toBeSorted))
+        } else throw new Error()
+    }
 
     const chooseAlgorithm = (event: any): void => {
         const options = [...algorithmOptions.map(a => a.name === event.target.value ? {...a, selected: true} : {
@@ -67,40 +74,21 @@ function App() {
             selected: false
         })]
         setAlgorithmOptions(options)
-        const selectedAlgorithm = options.find(o => o.name === event.target.value)
-        if (selectedAlgorithm) {
-            setAnimation(selectedAlgorithm.getAnimation(toBeSorted))
-        } else throw new Error()
+        getAnimation(options)
     };
-    if (state.animation && state.step >= state.animation.length - 1 && state.play)
-        setState({...state, play: false});
+    if (playback.animation && playback.step >= playback.animation.length - 1 && playback.play)
+        setPlayback({...playback, play: false});
     const startPause = (): void => {
-        setState({...state, play: !state.play});
+        setPlayback({...playback, play: !playback.play});
     };
     const next = () => {
-        setState({...state, step: state.step + 1});
+        setPlayback({...playback, step: playback.step + 1});
     };
     const previous = () => {
-        setState({...state, step: state.step - 1});
+        setPlayback({...playback, step: playback.step - 1});
     };
     const reset = () => {
-        setState({...state, step: 0, play: false});
-    };
-    const animation2 = () => {
-        if (animation.length)
-            return (
-                <Animation
-                    startAnimation={startPause}
-                    next={next}
-                    previous={previous}
-                    reset={reset}
-                    play={state.play}
-                    step={animation[state.step]}
-                    start={state.step === 0}
-                    // end={state.step === animation.length - 1}
-                    end={false}
-                />
-            );
+        setPlayback({...playback, step: 0, play: false});
     };
     return (
         <section className="hero is-fullheight has-background-link-light">
@@ -118,11 +106,20 @@ function App() {
                                 changeSpeed={changeSpeed}
                                 chooseAlgorithm={chooseAlgorithm}
                                 arrayLength={toBeSorted.length}
-                                speed={state.speed}
+                                speed={playback.speed}
                                 algorithms={algorithmOptions}
                             />
                         </div>
-                        <div className="column">{animation2()}</div>
+                        <div className="column">{animation.length ? <Animation
+                            startAnimation={startPause}
+                            next={next}
+                            previous={previous}
+                            reset={reset}
+                            play={playback.play}
+                            step={animation[playback.step]}
+                            start={playback.step === 0}
+                            end={playback.step === animation.length - 1}
+                        /> : <></>}</div>
                     </div>
                 </div>
             </div>
